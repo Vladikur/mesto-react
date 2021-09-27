@@ -50,15 +50,17 @@ function Main(props) {
     
             <section className="places">
             <ul className="places__cards">
-                {cards.map((card) =>
-                <Card
-                    openedCard={card}
-                    onCardClick={props.сardClick}
-                    cardName={card.name}
-                    cardImage={card.link}
-                    key={card._id}
-                    cardLikes={card.likes}
-                />)}
+                {cards.map((card) => (
+                    <Card
+                        openedCard={card}
+                        onCardClick={props.сardClick}
+                        cardName={card.name}
+                        cardImage={card.link}
+                        key={card._id}
+                        cardLikes={card.likes}
+                    />
+                    )
+                )}
             </ul>
             </section>
         </main>
