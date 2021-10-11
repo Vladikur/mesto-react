@@ -5,7 +5,7 @@ function PopupWithForm(props) {
             <div className="popup__container">
                 <button  onClick={props.closePopup} aria-label="Закрыть редактирование профиля" type="button" className="popup__exit popup__exit-profile"></button>
                 <h2 className="popup__text-redaction">{props.title}</h2>
-                <form onSubmit={props.onSubmit} action="URL" name={`${props.name}`} className="popup__form popup__form-profile">
+                <form onSubmit={props.onSubmit} name={`${props.name}`} className="popup__form popup__form-profile">
                     {props.children}
                     <button type="submit" className="popup__save">{props.buttonText}</button>
                 </form>

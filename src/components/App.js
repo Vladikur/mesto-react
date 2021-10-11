@@ -17,7 +17,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [deleteCard, setdeleteCard] = React.useState(false);
+  const [deleteCard, setDeleteCard] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState({name: '', link: ''});
   const [isSaving, setIsSaving] = React.useState(false);
 
@@ -63,7 +63,7 @@ function App() {
       setIsAddPlacePopupOpen(false);
     }
     if(deleteCard){
-      setdeleteCard(false);
+      setDeleteCard(null);
     }
     if(selectedCard.link){
       setSelectedCard({name: '', link: ''});
@@ -138,7 +138,7 @@ function App() {
     .deleteCard(deleteCard._id)
     .then(() => {
       setCards((state) => state.filter((c) => c._id !== deleteCard._id));
-      setdeleteCard(false)
+      setDeleteCard(false)
     })
     .catch(err => console.log(err))
     .finally(() => {
@@ -155,7 +155,7 @@ function App() {
         <Main
           initialCards={cards}
           onCardLike={handleCardLike}
-          onCardDelete={setdeleteCard}
+          onCardDelete={setDeleteCard}
           сardClick={handleCardClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
