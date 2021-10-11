@@ -1,6 +1,4 @@
 .popup__input-error {
-  opacity: 0;
-  transition: opacity 0.3s;
   position: absolute;
   top: 42px;
   left: 1px;

@@ -2,15 +2,37 @@ import React from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
+import RemoveCardPopup from './RemoveCardPopup';
 import ImagePopup from './ImagePopup';
+import apiMesto from '../utils/api';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
 
+  const [cards, setCards] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState({name: '', abaut: '', avatar: '', _id: ''});
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [deleteCard, setdeleteCard] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({name: '', link: ''});
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  React.useEffect(() => {
+    apiMesto
+    .getProfileData()
+    .then (data => {
+      if(data) {
+        setCurrentUser(data)
+      }
+    })
+    .catch(err => console.log(err))
+  }, []);
+
+
 
   function handleCardClick(item) {
     setSelectedCard(item);
@@ -40,52 +62,143 @@ function App() {
     if(isAddPlacePopupOpen){
       setIsAddPlacePopupOpen(false);
     }
+    if(deleteCard){
+      setdeleteCard(false);
+    }
     if(selectedCard.link){
       setSelectedCard({name: '', link: ''});
     }
   }
 
+  function handleUpdateUser(newDataUser) {
+    setIsSaving(true)
+    apiMesto
+    .profileRedact(newDataUser)
+    .then((data) => {
+      setCurrentUser(data)
+      setIsEditProfilePopupOpen(false)
+    })
+    .catch(err => console.log(err))
+    .finally(() => {
+      setIsSaving(false)
+    });
+  }
+
+  function handleUpdateAvatar(newAvatar) {
+    setIsSaving(true)
+    apiMesto
+    .avatarRedact(newAvatar)
+    .then((data) => {
+      setCurrentUser(data)
+      setIsEditAvatarPopupOpen(false)
+    })
+    .catch(err => console.log(err))
+    .finally(() => {
+      setIsSaving(false)
+    });
+  }
+
+  function handleAddPlaceSubmit(newCard) {
+    setIsSaving(true)
+    apiMesto
+    .cardCreate(newCard)
+    .then((data) => {
+      setCards([data, ...cards]); 
+      setIsAddPlacePopupOpen(false)
+    })
+    .catch(err => console.log(err))
+    .finally(() => {
+      setIsSaving(false)
+    });
+  }
+
+  React.useEffect(() => {
+    apiMesto
+    .getInitialCards()
+    .then (data => {
+        setCards(data)
+    })
+    .catch(err => console.log(err))
+  }, []);
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    apiMesto
+    .changeLikeCardStatus(card._id, isLiked)
+    .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+    .catch(err => console.log(err))
+  }
+
+  function handleRemoveCardSubmit() {
+    setIsSaving(true)
+    apiMesto
+    .deleteCard(deleteCard._id)
+    .then(() => {
+      setCards((state) => state.filter((c) => c._id !== deleteCard._id));
+      setdeleteCard(false)
+    })
+    .catch(err => console.log(err))
+    .finally(() => {
+      setIsSaving(false)
+    });
+  }
+
   return (
     <div className="page">
-      <Header />
+      <CurrentUserContext.Provider value={currentUser}>
 
-      <Main сardClick={handleCardClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+        <Header />
 
-      <Footer />
+        <Main
+          initialCards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={setdeleteCard}
+          сardClick={handleCardClick}
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+        />
 
-      <PopupWithForm buttonText="Сохранить" title="Редактировать профиль" name="edit" isOpen={isEditProfilePopupOpen} closePopup={closeAllPopups} >
-        <section className="popup__input-element">
-          <input id="sing-in-name" type="text" placeholder="Имя" name="name" className="popup__input popup__input_change_name" required minLength="2" maxLength="40" />
-          <span className="popup__input-error" id="sing-in-name-error"></span>
-        </section>
-        <section className="popup__input-element">
-          <input id="sing-in-description" type="text" placeholder="Описание" name="description" className="popup__input popup__input_change_description" required minLength="2" maxLength="200" />
-          <span className="popup__input-error" id="sing-in-description-error"></span>
-        </section>
-      </PopupWithForm>
+        <Footer />
 
-      <PopupWithForm buttonText="Создать" title="Новое место" name="add-card" isOpen={isAddPlacePopupOpen} closePopup={closeAllPopups} >
-        <section className="popup__input-element">
-          <input id="sing-in-place" type="text" placeholder="Название" name="place" className="popup__input popup__input_change_name-card" required minLength="2" maxLength="30" />
-          <span className="popup__input-error" id="sing-in-place-error"></span>
-        </section>
-        <section className="popup__input-element">
-          <input id="sing-in-url" type="url" placeholder="Ссылка на картинку" name="url" className="popup__input popup__input_change_src" required />
-          <span className="popup__input-error" id="sing-in-url-error"></span>
-        </section>
-      </PopupWithForm>
+        <EditProfilePopup
+          saving={isSaving}
+          onUpdateUser={handleUpdateUser} 
+          isOpen={isEditProfilePopupOpen}
+          closePopup={closeAllPopups}
+        />
+      
+        <AddPlacePopup
+          saving={isSaving}
+          onAddPlace={handleAddPlaceSubmit}
+          isOpen={isAddPlacePopupOpen}
+          closePopup={closeAllPopups}
+        />
 
-      <PopupWithForm buttonText="Сохранить" title="Обновить аватар" name="add-avatar" isOpen={isEditAvatarPopupOpen} closePopup={closeAllPopups} >
-        <section className="popup__input-element">
-          <input id="avatar-url" type="url" placeholder="Ссылка на картинку" name="avatar" className="popup__input popup__input_change_avatar" required />
-          <span className="popup__input-error" id="avatar-url-error"></span>
-        </section>
-      </PopupWithForm>
+        <EditAvatarPopup
+          saving={isSaving}
+          onUpdateAvatar={handleUpdateAvatar}
+          isOpen={isEditAvatarPopupOpen}
+          closePopup={closeAllPopups}
+        />
 
-      <PopupWithForm buttonText="Да" title="Вы уверены?" name="delete-card" />
+        <RemoveCardPopup
+          saving={isSaving}
+          onRemoveCard={handleRemoveCardSubmit}
+          isOpen={deleteCard}
+          closePopup={closeAllPopups}
+        />
 
-      <ImagePopup cardName={selectedCard.name} cardLink={selectedCard.link} closePopup={closeAllPopups} />
+        <ImagePopup
+          cardName={selectedCard.name}
+          cardLink={selectedCard.link}
+          closePopup={closeAllPopups}
+        />
 
+      </CurrentUserContext.Provider>
     </div>
   );
 }

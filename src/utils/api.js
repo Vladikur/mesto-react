@@ -61,24 +61,24 @@ class Api {
     .then(res => this._getResponseData(res))
   }
 
-  putLikes(id) {
-    return fetch(`${this.url}/cards/likes/${id}`, {
-      method: 'PUT',
-      headers: {
-        authorization: this.authorization,
-      },
-    })
-    .then(res => this._getResponseData(res))
-  }
-
-  deleteLikes(id) {
-    return fetch(`${this.url}/cards/likes/${id}`, {
-      method: 'DELETE',
-      headers: {
-        authorization: this.authorization,
-      },
-    })
-    .then(res => this._getResponseData(res))
+  changeLikeCardStatus(id, isLiked) {
+    if (isLiked) {
+      return fetch(`${this.url}/cards/likes/${id}`, {
+        method: 'DELETE',
+        headers: {
+          authorization: this.authorization,
+        },
+      })
+      .then(res => this._getResponseData(res))
+    } else {
+      return fetch(`${this.url}/cards/likes/${id}`, {
+        method: 'PUT',
+        headers: {
+          authorization: this.authorization,
+        },
+      })
+      .then(res => this._getResponseData(res))
+    }
   }
 
   deleteCard(id) {
@@ -99,7 +99,7 @@ class Api {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        avatar: data,
+        avatar: data.avatar,
       })
     })
     .then(res => this._getResponseData(res))
