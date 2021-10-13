@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/Vladikur/mesto-react/static/css/main.f1aee124.chunk.css",
+    "main.js": "/Vladikur/mesto-react/static/js/main.f2d2491b.chunk.js",
+    "main.js.map": "/Vladikur/mesto-react/static/js/main.f2d2491b.chunk.js.map",
+    "runtime-main.js": "/Vladikur/mesto-react/static/js/runtime-main.db431a62.js",
+    "runtime-main.js.map": "/Vladikur/mesto-react/static/js/runtime-main.db431a62.js.map",
+    "static/js/2.896f000d.chunk.js": "/Vladikur/mesto-react/static/js/2.896f000d.chunk.js",
+    "static/js/2.896f000d.chunk.js.map": "/Vladikur/mesto-react/static/js/2.896f000d.chunk.js.map",
+    "static/js/3.8f549c3c.chunk.js": "/Vladikur/mesto-react/static/js/3.8f549c3c.chunk.js",
+    "static/js/3.8f549c3c.chunk.js.map": "/Vladikur/mesto-react/static/js/3.8f549c3c.chunk.js.map",
+    "index.html": "/Vladikur/mesto-react/index.html",
+    "static/css/main.f1aee124.chunk.css.map": "/Vladikur/mesto-react/static/css/main.f1aee124.chunk.css.map",
+    "static/js/2.896f000d.chunk.js.LICENSE.txt": "/Vladikur/mesto-react/static/js/2.896f000d.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/Vladikur/mesto-react/static/media/remove.2af49b82.svg",
+    "static/media/header__logo.931a48ca.svg": "/Vladikur/mesto-react/static/media/header__logo.931a48ca.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.db431a62.js",
+    "static/js/2.896f000d.chunk.js",
+    "static/css/main.f1aee124.chunk.css",
+    "static/js/main.f2d2491b.chunk.js"
+  ]
+}
