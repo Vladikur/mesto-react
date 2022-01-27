@@ -1,15 +1,23 @@
-# Getting Started with Create React App
+# Проект "Место" на React.js
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Описание проекта и его функциональность
+Данный проект позволит поделиться с другими людьми своими впечатлениями о тех местах, которые пользователь посетил. И оценить красивые места нашей планеты, которые посетили другие.
 
-## Available Scripts
+## Какие инструменты были использованы при разработке проекта
+Переложение написано на React.js с использованием React Create App. Использована методология БЭМ. В разработке данного проекта были использованы такие инструменты верстки как: flex, grid для адаптивной вёрстки.
 
-In the project directory, you can run:
+## Ссылка на GitHub Pages:
+https://vladikur.github.io/mesto/
+
+
+## Доступные скрипты
+
+В директории проекта вы можете:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Запустить приложение в режиме разработки.\
+Оно открется в браузере по ссылке [http://localhost:3000].
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
