@@ -7,7 +7,7 @@
 Переложение написано на React.js с использованием React Create App. Использована методология БЭМ. В разработке данного проекта были использованы такие инструменты верстки как: flex, grid для адаптивной вёрстки.
 
 ## Ссылка на GitHub Pages:
-https://vladikur.github.io/mesto/
+https://vladikur.github.io/mesto-react/
 
 
 ## Доступные скрипты
